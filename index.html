@@ -3,573 +3,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J. Singh | Astrophysics & Systems</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'syne': ['Syne', 'sans-serif'],
-                        'mono': ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        'void': '#F7F7F7', /* Stark Gallery White */
-                        'matter': '#0A0A0A', /* Deep Black */
-                    }
-                }
-            }
-        }
+    
+    <!-- Primary Meta Tags -->
+    <title>Jashanpreet Singh Dingra | astrodingra | Computational Astrophysics</title>
+    <meta name="title" content="Jashanpreet Singh Dingra | astrodingra | Computational Astrophysics">
+    <meta name="description" content="Portfolio of Jashanpreet Singh Dingra (astrodingra), a BSc Physics student specializing in Computational Astrophysics, Galaxy Morphology, and Machine Learning. Founder of Dingrastro Club.">
+    <meta name="keywords" content="Jashanpreet Singh Dingra, astrodingra, Computational Astrophysics, Physics, Guru Nanak Dev University, Machine Learning, Galaxy Morphology, Galamo, Astronomy">
+    <meta name="author" content="Jashanpreet Singh Dingra">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.astrodingra.in/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.astrodingra.in/">
+    <meta property="og:title" content="Jashanpreet Singh Dingra | astrodingra">
+    <meta property="og:description" content="Portfolio of Jashanpreet Singh Dingra (astrodingra), focusing on Computational Astrophysics, Galaxy Morphology, and Machine Learning.">
+    <meta property="og:image" content="https://www.astrodingra.in/pec.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.astrodingra.in/">
+    <meta property="twitter:title" content="Jashanpreet Singh Dingra | astrodingra">
+    <meta property="twitter:description" content="Portfolio of Jashanpreet Singh Dingra (astrodingra), focusing on Computational Astrophysics, Galaxy Morphology, and Machine Learning.">
+    <meta property="twitter:image" content="https://www.astrodingra.in/pec.jpeg">
+
+    <!-- JSON-LD Structured Data for Google Knowledge Graph -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jashanpreet Singh Dingra",
+      "alternateName": "astrodingra",
+      "url": "https://www.astrodingra.in",
+      "image": "https://www.astrodingra.in/pec.jpeg",
+      "sameAs": [
+        "https://www.linkedin.com/in/astrodingra/",
+        "https://www.github.com/dingra11",
+        "https://www.youtube.com/@astrodingra"
+      ],
+      "jobTitle": "Computational Astrophysics Student & Researcher",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Guru Nanak Dev University"
+      },
+      "knowsAbout": ["Computational Astrophysics", "Galaxy Morphology", "Machine Learning", "AGN Dynamics"]
+    }
     </script>
+
     <style>
-        /* === OUT-OF-THE-BOX ARCHITECTURE === */
         :root {
-            --cursor-x: 50vw;
-            --cursor-y: 50vh;
+            --bg-color: #f4f4f0;
+            --text-color: #111111;
+            --link-color: #0000ee;
+            --link-hover-bg: #0000ee;
+            --link-hover-color: #ffffff;
+            --border-color: #cccccc;
+            --container-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            background-color: theme('colors.void');
-            color: theme('colors.matter');
-            cursor: none; /* Hide default cursor entirely */
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            /* The requested Heidelberg Background */
+            background-color: var(--bg-color);
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/b/b4/Heidelberg_corr.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
         }
 
-        /* The Custom Optical Crosshair */
-        #crosshair {
-            position: fixed;
-            top: 0; left: 0;
-            width: 40px; height: 40px;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: width 0.3s, height 0.3s;
-        }
-        #crosshair::before, #crosshair::after {
-            content: ''; position: absolute; background: white;
-        }
-        #crosshair::before { top: 50%; left: 0; width: 100%; height: 1px; transform: translateY(-50%); }
-        #crosshair::after { left: 50%; top: 0; height: 100%; width: 1px; transform: translateX(-50%); }
-        
-        body.hovering #crosshair { width: 80px; height: 80px; }
-        body.hovering #crosshair::before, body.hovering #crosshair::after { background: #FF3366; }
-
-        /* The Holographic Iridescence (Follows Mouse) */
-        #aura {
-            position: fixed;
-            top: var(--cursor-y); left: var(--cursor-x);
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(147,197,253,0.4) 0%, rgba(24BC9B,0.3) 25%, rgba(244,114,182,0.2) 50%, transparent 70%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(60px);
-            opacity: 0.8;
-            transition: top 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* The main readable container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border: 1px solid var(--text-color);
+            /* Brutalist shadow */
+            box-shadow: 8px 8px 0px var(--text-color);
         }
 
-        /* Spacetime Distortion Canvas */
-        #spacetime-grid {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.15;
-        }
-
-        /* Main Content Container */
-        .glass-layer {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Viewfinder Navigation (Corner Anchors) */
-        .viewfinder-anchor { position: fixed; font-family: 'JetBrains Mono'; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; z-index: 50; mix-blend-mode: difference; color: white;}
-        .vf-tl { top: 2rem; left: 2rem; }
-        .vf-tr { top: 2rem; right: 2rem; text-align: right; }
-        .vf-bl { bottom: 2rem; left: 2rem; }
-        .vf-br { bottom: 2rem; right: 2rem; text-align: right; }
-
-        /* Massive Typography */
-        .mega-text {
-            font-size: clamp(4rem, 12vw, 15rem);
-            line-height: 0.85;
-            letter-spacing: -0.04em;
+        h1, h2, h3 {
+            font-weight: bold;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
             text-transform: uppercase;
         }
 
-        /* Minimalist Scroll Reveal */
-        .reveal-node { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal-node.in-view { opacity: 1; transform: translateY(0); }
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 10px;
+        }
 
-        /* Highlighted Research Tab */
-        .research-tab {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%) rotate(180deg);
-            writing-mode: vertical-rl;
-            background: #0A0A0A;
-            color: #F7F7F7;
-            padding: 2rem 0.6rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            z-index: 100;
-            transition: all 0.3s ease;
-            border-left: 4px solid #FF3366;
-            box-shadow: -5px 0 20px rgba(255, 51, 102, 0.15);
+        h2 {
+            font-size: 18px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 14px;
+            margin-top: 1.5em;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        a {
+            color: var(--link-color);
             text-decoration: none;
-            cursor: none;
-        }
-        .research-tab:hover {
-            background: #FF3366;
-            color: white;
-            padding-right: 1.2rem;
-            border-left-color: #0A0A0A;
-            box-shadow: -10px 0 30px rgba(255, 51, 102, 0.4);
+            border-bottom: 1px solid var(--link-color);
+            transition: all 0.1s;
         }
 
+        a:hover {
+            background-color: var(--link-hover-bg);
+            color: var(--link-hover-color);
+            border-bottom-color: transparent;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+            margin-bottom: 1.5em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed var(--border-color);
+            margin: 2em 0;
+        }
+
+        .nav {
+            margin-bottom: 2em;
+            font-weight: bold;
+        }
+
+        .nav a {
+            margin-right: 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav a:before { content: "[ "; color: var(--text-color); background: none; }
+        .nav a:after { content: " ]"; color: var(--text-color); background: none; }
+
+        .meta {
+            color: #666;
+            font-size: 12px;
+        }
+
+        pre {
+            background: #eee;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            font-size: 12px;
+        }
+
+        .footer-quote {
+            margin-top: 40px;
+            padding: 15px;
+            background: #111;
+            color: #00ff00; /* Terminal green for the quote */
+            font-weight: bold;
+            border: 1px solid #111;
+        }
+
+        /* Image Styling */
+        .project-img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--text-color);
+            margin-top: 10px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .img-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .img-grid .project-img {
+            margin: 0;
+        }
+        
+        /* Profile Picture Styling */
+        .profile-pic {
+            float: right;
+            width: 140px;
+            height: auto;
+            border: 2px solid var(--text-color);
+            margin: 0 0 15px 20px;
+            box-shadow: 4px 4px 0px var(--text-color);
+        }
+
+        /* Clearfix to prevent floated elements from overflowing their container */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Social Links Top Bar */
+        .social-links {
+            margin-top: 2em;
+            margin-bottom: 1.5em;
+            font-size: 13px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .social-links img {
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        /* Zoom Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 17, 17, 0.9);
+            overflow: auto;
+        }
+        
+        .modal-img-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--container-bg);
+            box-shadow: 8px 8px 0px #000;
+            cursor: zoom-out;
+        }
+
+        .text-modal-content {
+            background-color: var(--container-bg);
+            margin: 5% auto;
+            padding: 40px;
+            border: 2px solid var(--text-color);
+            width: 85%;
+            max-width: 800px;
+            box-shadow: 8px 8px 0px #000;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: var(--text-color);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--link-color);
+        }
+
+        .zoomable {
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+
+        .zoomable:hover {
+            transform: scale(1.02);
+            border-color: var(--link-color);
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                box-shadow: 4px 4px 0px var(--text-color);
+            }
+            .nav a {
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+            .img-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-pic {
+                float: none;
+                display: block;
+                margin: 0 auto 15px auto;
+            }
+            .text-modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Holographic Aura & Physics Canvas -->
-    <div id="aura"></div>
-    <canvas id="spacetime-grid"></canvas>
-    
-    <!-- Custom Optical Crosshair -->
-    <div id="crosshair"></div>
+    <main class="container">
+        <header>
+            <h1>Jashanpreet Singh Dingra / astrodingra</h1>
 
-    <!-- Dedicated Research Highlight Tab -->
-    <a href="#research" class="research-tab hover-trigger">
-        /// ACCESS RESEARCH
-    </a>
+            <div class="nav">
+                <a href="#about">about</a>
+                <a href="#publications">publications</a>
+                <a id="openResearchBtn">research</a>
+                <a href="#impact">impact</a>
+                <a href="#education">education</a>
+                <a href="#contact">contact</a>
+            </div>
+        </header>
 
-    <!-- Corner Viewfinder Navigation -->
-    <div class="viewfinder-anchor vf-tl">SYS.COORD <br> 31.6340° N, 74.8723° E</div>
-    <div class="viewfinder-anchor vf-tr text-right pointer-events-auto">
-        <div class="flex gap-4 justify-end mb-1">
-            <a href="https://www.linkedin.com/in/astrodingra/" target="_blank" class="hover-trigger hover:text-[#FF3366] transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-[#FF3366] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">LINKEDIN</a>
-            <a href="https://github.com/jsdingrall" target="_blank" class="hover-trigger hover:text-[#FF3366] transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-[#FF3366] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">GITHUB</a>
-            <a href="mailto:astrodingra@gmail.com" class="hover-trigger hover:text-[#FF3366] transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-[#FF3366] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">MAIL</a>
+        <section id="about" class="clearfix">
+            <img src="pec.jpeg" alt="Jashanpreet Singh Dingra - Astrodingra" class="profile-pic">
+            <p>
+                <b>Status:</b> BSc. Physics Student @ Guru Nanak Dev University.<br>
+                <b>Focus:</b> Computational Astrophysics, Galaxy Morphology, AGN Dynamics, Machine Learning.<br>
+                <b>Role:</b> Founder of Dingrastro Club, ISRO Space Tutor.
+            </p>
+            <p>
+                I develop and utilize open-source astronomical pipelines and machine learning frameworks to analyze deep space data. My research bridges observations from next-generation surveys with theoretical models of galaxy evolution, morphological classification, and stellar kinematics.
+            </p>
+        </section>
+
+        <div class="social-links">
+            <span>Website: <a href="https://www.astrodingra.in" target="_blank">astrodingra.in</a></span>
+            <span><img src="https://www.iconpacks.net/icons/1/free-linkedin-icon-112-thumb.png" height="16" alt="LinkedIn"/> LinkedIN: <a href="https://www.linkedin.com/in/astrodingra/" target="_blank">@astrodingra</a></span>
+            <span><img src="https://cdn.simpleicons.org/github/181717" height="16" alt="GitHub"/> GitHub: <a href="https://www.github.com/dingra11" target="_blank">dingra11</a></span>
+            <span><img src="https://cdn.simpleicons.org/youtube/FF0000" height="16" alt="YouTube"/> YouTube: <a href="https://www.youtube.com/@astrodingra" target="_blank">@astrodingra</a></span>
+            <span>Email: <a href="mailto:astrodingra@gmail.com">astrodingra@gmail.com</a></span>
         </div>
-        <span id="time-display" class="opacity-50"></span>
-    </div>
-    <div class="viewfinder-anchor vf-bl hover-trigger"><a href="#contact">INITIATE<br>CONTACT</a></div>
-    <div class="viewfinder-anchor vf-br">JASHANPREET SINGH <br> ASTROPHYSICS // DATA</div>
 
-    <!-- Main Content Layer -->
-    <main class="glass-layer max-w-[100vw] px-4 md:px-12 pt-32 pb-48">
-        
-        <!-- SECTION 01: HERO MONOLITH -->
-        <section id="hero" class="min-h-[85vh] flex flex-col justify-center relative">
-            <div class="reveal-node" style="transition-delay: 0.1s;">
-                <p class="font-mono text-xs tracking-[0.2em] uppercase mb-4 opacity-60">/// Identification</p>
-                <h1 class="font-syne font-extrabold mega-text text-matter break-words">Jashanpreet</h1>
-            </div>
-            <div class="reveal-node" style="transition-delay: 0.2s;">
-                <h1 class="font-syne font-extrabold mega-text text-matter text-transparent" style="-webkit-text-stroke: 1px #0A0A0A; margin-left: 5vw;">Singh.</h1>
-            </div>
-            
-            <div class="mt-12 max-w-xl font-mono text-sm leading-relaxed reveal-node" style="margin-left: 10vw; transition-delay: 0.3s;">
-                <p class="mb-4 text-justify">
-                    A convergence of <span class="font-bold text-black bg-blue-100 px-1">Astrophysics</span>, <span class="font-bold text-black bg-pink-100 px-1">Machine Learning</span>, and <span class="font-bold text-black bg-green-100 px-1">Systems Architecture</span>. 
-                    I map the morphology of galaxies, decode the Crab Pulsar, and build hardware for the troposphere.
-                </p>
-                <div class="flex gap-6 mt-8 font-bold border-t border-black pt-4 uppercase text-xs">
-                    <span>BSc. Physics Scholar</span>
-                    <span>ISRO Space Tutor</span>
-                    <span>AIR 231 (JEE)</span>
-                </div>
-            </div>
-        </section>
+        <p style="margin-bottom: 2em; font-size: 14px;">
+            <b><a href="cv_jsdingra.pdf" download="cv_jsdingra.pdf" title="Download Jashanpreet Singh Dingra CV">> DOWNLOAD CV [PDF]</a></b>
+        </p>
 
-        <!-- SECTION 02: TRAJECTORY (THE ARCHIVE) -->
-        <section class="mt-32 reveal-node">
-            <p class="font-mono text-xs tracking-[0.2em] uppercase mb-8 border-b border-black/10 pb-4">/// Trajectory & Honors</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 font-syne">
-                <!-- Academic -->
-                <div class="group hover-trigger p-6 hover:bg-white/50 transition duration-500 border border-transparent hover:border-black/5">
-                    <h3 class="text-3xl font-bold mb-6 opacity-30 group-hover:opacity-100 transition">01. Academic</h3>
-                    <ul class="space-y-4 font-mono text-sm">
-                        <li class="flex justify-between border-b border-black/5 pb-2">
-                            <span>BSc. Physics (GNDU)</span>
-                            <span class="font-bold">9.10 CGPA</span>
-                        </li>
-                        <li class="flex justify-between border-b border-black/5 pb-2">
-                            <span>JEE Mains</span>
-                            <span class="font-bold">AIR 231</span>
-                        </li>
-                        <li class="flex justify-between pb-2">
-                            <span>Non-Medical (TMS)</span>
-                            <span class="font-bold">84.2%</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Achievements -->
-                <div class="group hover-trigger p-6 hover:bg-white/50 transition duration-500 border border-transparent hover:border-black/5">
-                    <h3 class="text-3xl font-bold mb-6 opacity-30 group-hover:opacity-100 transition">02. Accolades</h3>
-                    <ul class="space-y-4 font-mono text-sm">
-                        <li class="flex justify-between border-b border-black/5 pb-2">
-                            <span>ICNPA Best Presentation</span>
-                            <span class="font-bold">2024</span>
-                        </li>
-                        <li class="flex justify-between border-b border-black/5 pb-2">
-                            <span>NSEA Scholar</span>
-                            <span class="font-bold">2023</span>
-                        </li>
-                        <li class="flex justify-between pb-2">
-                            <span>IAAC Bronze Honours</span>
-                            <span class="font-bold">2021</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Hackathons -->
-                <div class="group hover-trigger p-6 hover:bg-white/50 transition duration-500 border border-transparent hover:border-black/5">
-                    <h3 class="text-3xl font-bold mb-6 opacity-30 group-hover:opacity-100 transition">03. Systems</h3>
-                    <ul class="space-y-4 font-mono text-sm">
-                        <li class="flex flex-col border-b border-black/5 pb-2">
-                            <span class="font-bold">HACKOWASP7.0</span>
-                            <span class="text-xs opacity-60">Runner Up — ₹1.5L</span>
-                        </li>
-                        <li class="flex flex-col border-b border-black/5 pb-2">
-                            <span class="font-bold">GNDU Ideathon</span>
-                            <span class="text-xs opacity-60">Winner — ₹15k</span>
-                        </li>
-                        <li class="flex flex-col pb-2">
-                            <span class="font-bold">Languages</span>
-                            <span class="text-xs opacity-60">Python, Julia, R, C++, JS</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 03: RESEARCH INDEX (DROPDOWN REVEAL) -->
-        <section id="research" class="mt-48 reveal-node relative">
-            
-            <!-- Restored Minimalist Header -->
-            <p class="font-mono text-xs tracking-[0.2em] uppercase mb-12 border-b border-black/10 pb-4">/// Research & Publications Index</p>
-            
-            <div class="w-full font-syne" id="research-container">
-                
-                <!-- Item 1: JWST LRD (MOVED TO FIRST) -->
-                <div class="border-b border-black/10">
-                    <button class="w-full py-8 text-left flex flex-col md:flex-row justify-between items-baseline gap-4 hover-trigger group" onclick="toggleAccordion(this)">
-                        <h2 class="text-3xl md:text-5xl font-bold transition-transform duration-400 group-hover:translate-x-5 text-transparent" style="-webkit-text-stroke: 1px #0A0A0A;">JWST "Little Red Dot"</h2>
-                        <div class="flex items-center gap-4">
-                            <span class="font-mono text-sm opacity-60 uppercase">Ongoing / 2026</span>
-                            <span class="text-xl font-mono accordion-icon transition-transform duration-300 inline-block">+</span>
-                        </div>
-                    </button>
-                    <!-- Accordion Content -->
-                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                        <div class="pb-12 pt-4">
-                            
-                            <!-- Heidelberg Location Banner -->
-                            <div class="w-full h-40 bg-[#FF3366]/5 mb-8 flex items-center justify-center font-mono text-xs uppercase overflow-hidden relative border border-black/10 group">
-                                <div class="absolute inset-0 bg-[url('https://upload.wikimedia.org/wikipedia/commons/b/b4/Heidelberg_corr.jpg')] bg-cover bg-[center_top_30%] opacity-40 mix-blend-luminosity filter blur-[2px] transition-all duration-700 group-hover:blur-0 group-hover:scale-105 group-hover:opacity-70"></div>
-                                <div class="relative z-10 px-6 py-2 bg-white/90 text-black font-bold tracking-[0.2em] border border-black backdrop-blur-sm flex items-center gap-3 shadow-lg">
-                                    <span class="w-2 h-2 bg-[#FF3366] rounded-full animate-pulse"></span>
-                                    MPIA HEIDELBERG, GERMANY
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                <img src="lrd_evolutionary_tracks_fixed.png" alt="Evolutionary Tracks" class="w-full border border-black/10 bg-white">
-                                <img src="lrd_kinematic_aligned_tau_V.png" alt="Kinematic Aligned" class="w-full border border-black/10 bg-white">
-                            </div>
-                            <h4 class="font-bold text-2xl mb-4">Evolutionary Destiny in Illustris TNG</h4>
-                            <p class="font-mono text-sm opacity-80 leading-relaxed mb-6 max-w-4xl">
-                                By tracking their main descendant branches forward to z=0, we predict these early-universe anomalies are the direct progenitors of today's massive Brightest Cluster Galaxies (BCGs). Furthermore, a stacked temporal analysis aligned to the quenching epoch definitively proves that radiatively efficient AGN feedback is responsible for their rapid star-formation cessation.
-                            </p>
-                            <div class="font-mono text-xs font-bold border-t border-black/10 pt-4 max-w-4xl">
-                                <p>AUTHORS: JASHANPREET SINGH DINGRA, AKANKSHA KAPATHIA</p>
-                                <p class="mt-2 text-[#FF3366]">▶ MAX PLANCK INSTITUTE OF ASTRONOMY (MPIA) • HEIDELBERG, GERMANY</p>
-                            </div>
-                        </div>
+        <section id="publications">
+            <h2>Publications</h2>
+            <p>Full manuscripts under review and ongoing research projects.</p>
+            <ul>
+                <li>
+                    <b>A Unified Deep Learning Framework for Automated Morphological Classification and Photometric Analysis using DECals Legacy Imaging</b><br>
+                    <span class="meta">J. S. Dingra, H. Chand & M. Sudan. MNRAS (Positive Review).</span><br>
+                    <a href="http://www.galamo.org">[Galamo Project]</a>
+                    <img src="sdss_first10_matrix.png" alt="Galamo Morphology Classifications Matrix" class="project-img zoomable">
+                </li>
+                <li>
+                    <b>Investigating the relationship between black hole mass and galaxy dynamics in Seyfert Type II and LINER galaxies</b><br>
+                    <span class="meta">J. S. Dingra & M. Sudan. MNRAS (Under Review).</span><br>
+                    Presented the correlation between M<sub>BH</sub> specifically for Seyfert Type II, overcoming obscuration challenges.
+                </li>
+                <li>
+                    <b>The Evolutionary Destiny and Observational Deficits of JWST "Little Red Dot" Analogues in Illustris TNG</b><br>
+                    <span class="meta">J. S. Dingra & A. Kapathia. (Ongoing 2026).</span><br>
+                    Predicting early-universe anomalies as direct progenitors of today's massive BCGs via radiatively efficient AGN feedback.
+                    <div class="img-grid">
+                        <img src="lrd_kinematic_aligned_tau_V.png" alt="LRD Kinematic Face-on and Edge-on Views" class="project-img zoomable">
+                        <img src="lrd_evolutionary_tracks_fixed.png" alt="LRD Evolutionary Tracks for Mass, BH Growth, and Quenching" class="project-img zoomable">
                     </div>
-                </div>
-
-                <!-- Item 2: Galamo -->
-                <div class="border-b border-black/10">
-                    <button class="w-full py-8 text-left flex flex-col md:flex-row justify-between items-baseline gap-4 hover-trigger group" onclick="toggleAccordion(this)">
-                        <h2 class="text-3xl md:text-5xl font-bold transition-transform duration-400 group-hover:translate-x-5">Galamo Framework</h2>
-                        <div class="flex items-center gap-4">
-                            <span class="font-mono text-sm opacity-60 uppercase">MNRAS Positive Review</span>
-                            <span class="text-xl font-mono accordion-icon transition-transform duration-300 inline-block">+</span>
-                        </div>
-                    </button>
-                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                        <div class="pb-12 pt-4">
-                            <div class="w-full h-48 bg-blue-100 mb-6 flex items-center justify-center font-mono text-xs uppercase overflow-hidden relative border border-black/10">
-                                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80')] bg-cover opacity-50 mix-blend-multiply filter blur-sm"></div>
-                                <a href="http://www.galamo.org" target="_blank" class="relative z-10 px-6 py-3 bg-white text-black font-bold hover:bg-black hover:text-white transition-colors cursor-none hover-trigger border border-black">VIEW WWW.GALAMO.ORG</a>
-                            </div>
-                            <h4 class="font-bold text-2xl mb-4">Automated Morphological Classification</h4>
-                            <p class="font-mono text-sm opacity-80 leading-relaxed mb-6 max-w-4xl">
-                                An open-source Python package for comprehensive galaxy analysis integrating ML and statistical methods for photometry and spectral analysis.
-                            </p>
-                            <div class="font-mono text-xs font-bold border-t border-black/10 pt-4">
-                                <p>AUTHORS: J. SINGH, H. CHAND, M. SUDAN</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 3: AGN Flux Pipeline -->
-                <div class="border-b border-black/10">
-                    <button class="w-full py-8 text-left flex flex-col md:flex-row justify-between items-baseline gap-4 hover-trigger group" onclick="toggleAccordion(this)">
-                        <h2 class="text-3xl md:text-5xl font-bold transition-transform duration-400 group-hover:translate-x-5 text-transparent" style="-webkit-text-stroke: 1px #0A0A0A;">AGN Flux Pipeline</h2>
-                        <div class="flex items-center gap-4">
-                            <span class="font-mono text-sm opacity-60 uppercase">MNRAS Under Review</span>
-                            <span class="text-xl font-mono accordion-icon transition-transform duration-300 inline-block">+</span>
-                        </div>
-                    </button>
-                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                        <div class="pb-12 pt-4">
-                            <h4 class="font-bold text-2xl mb-4">Disentangling AGN Flux Contribution</h4>
-                            <p class="font-mono text-sm opacity-80 leading-relaxed mb-6 max-w-4xl">Studying AGN flux variability using the PFVG method from COMOS Casata Survey.</p>
-                            <div class="font-mono text-xs font-bold border-t border-black/10 pt-4">
-                                <p>AUTHORS: M. SUDAN, J. SINGH, A. SARKAR, H. CHAND</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 4: Hardware -->
-                <div class="border-b border-black/10">
-                    <button class="w-full py-8 text-left flex flex-col md:flex-row justify-between items-baseline gap-4 hover-trigger group" onclick="toggleAccordion(this)">
-                        <h2 class="text-3xl md:text-5xl font-bold transition-transform duration-400 group-hover:translate-x-5 text-transparent" style="-webkit-text-stroke: 1px #0A0A0A;">Rocket Flight Computer</h2>
-                        <div class="flex items-center gap-4">
-                            <span class="font-mono text-sm opacity-60 uppercase">2023 System</span>
-                            <span class="text-xl font-mono accordion-icon transition-transform duration-300 inline-block">+</span>
-                        </div>
-                    </button>
-                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                        <div class="pb-12 pt-4">
-                            <h4 class="font-bold text-2xl mb-4">7km Telemetry System</h4>
-                            <p class="font-mono text-sm opacity-80 leading-relaxed mb-6 max-w-4xl">Equipped with accelerometer, gyroscope, temperature sensors for abort system, GPS modules, barometric sensors, and biological slides for toposphere microbial collection.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+                </li>
+            </ul>
         </section>
 
-        <!-- SECTION 04: OUTREACH & LEADERSHIP (Replaced Astrophotography) -->
-        <section class="mt-48 reveal-node">
-            <div class="flex justify-between items-end mb-12 border-b border-black/10 pb-4">
-                <p class="font-mono text-xs tracking-[0.2em] uppercase">/// Outreach & Leadership</p>
-                <p class="font-mono text-[10px] text-right uppercase">Global Community<br>Education Systems</p>
-            </div>
+        <section id="impact">
+            <h2>Conferences & Impact</h2>
+            
+            <h3>Talks & Presentations</h3>
+            <ul>
+                <li><b>ICNPA 2024:</b> Best Oral Presentation Award at the Int. Conf. on Nuclear Physics and Its Applications, New Delhi.</li>
+                <li><b>Advances in Cosmology:</b> Christ University, Bangalore (2025).</li>
+                <li><b>Astronomy Webinar:</b> Guest Speaker, Astronomy Club, Kosovo (2023).</li>
+                <li><b>Invited Speaker:</b> Star Party, The Millennium School, Patiala (2025).</li>
+                <li><b>Symposium on Nuclear Physics:</b> 68th Edition, IIT Roorkee (2024).</li>
+                <li><b>AGN Conference:</b> National Conference on Active Galactic Nuclei, CUHP, India (2025).</li>
+            </ul>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-syne">
-                <!-- Node 1 -->
-                <div class="border border-black/10 p-8 hover-trigger hover:bg-black hover:text-white transition-colors duration-500 group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF3366] rounded-full filter blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest mb-6 opacity-60">Role // 2023-Present</div>
-                    <h3 class="text-3xl font-bold mb-4 relative z-10">ISRO Space Tutor</h3>
-                    <p class="font-mono text-xs leading-relaxed opacity-80 relative z-10">Officially recognized Space Tutor by the Indian Space Research Organisation. Educating and mentoring the next generation in space sciences.</p>
-                </div>
-
-                <!-- Node 2 -->
-                <div class="border border-black/10 p-8 hover-trigger hover:bg-black hover:text-white transition-colors duration-500 group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF3366] rounded-full filter blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest mb-6 opacity-60">Founder // 200+ Members</div>
-                    <h3 class="text-3xl font-bold mb-4 relative z-10">Dingrastro Club</h3>
-                    <p class="font-mono text-xs leading-relaxed opacity-80 relative z-10">Founder of a global astronomy community. Active member of 7+ astronomy clubs worldwide, fostering international collaboration.</p>
-                </div>
-
-                <!-- Node 3 -->
-                <div class="border border-black/10 p-8 hover-trigger hover:bg-black hover:text-white transition-colors duration-500 group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF3366] rounded-full filter blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest mb-6 opacity-60">Global // 2024-Present</div>
-                    <h3 class="text-3xl font-bold mb-4 relative z-10">IAAC Ambassador</h3>
-                    <p class="font-mono text-xs leading-relaxed opacity-80 relative z-10">Global Ambassador and Bronze Honours recipient for the International Astronomy and Astrophysics Competition.</p>
-                </div>
-
-                <!-- Node 4 -->
-                <div class="border border-black/10 p-8 hover-trigger hover:bg-black hover:text-white transition-colors duration-500 group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF3366] rounded-full filter blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest mb-6 opacity-60">Leadership // GNDU</div>
-                    <h3 class="text-3xl font-bold mb-4 relative z-10">Physics Club Tech Head</h3>
-                    <p class="font-mono text-xs leading-relaxed opacity-80 relative z-10">Leading technical operations and event organization for the Guru Nanak Dev University Physics Club.</p>
-                </div>
-
-                <!-- Node 5 -->
-                <div class="border border-black/10 p-8 hover-trigger hover:bg-black hover:text-white transition-colors duration-500 group relative overflow-hidden lg:col-span-2">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#FF3366] rounded-full filter blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest mb-6 opacity-60">Civic Duty // Recognition</div>
-                    <h3 class="text-3xl font-bold mb-4 relative z-10">Social Work & Heroism</h3>
-                    <p class="font-mono text-xs leading-relaxed opacity-80 max-w-2xl relative z-10">Recognized by the Municipal Commissioner for heroically saving a child during a bus accident. Active member of the Art of Living's Punjab Flood Relief Team, demonstrating a commitment to human welfare alongside scientific pursuit.</p>
-                </div>
-            </div>
+            <h3>Summer Schools & Hackathons</h3>
+            <ul>
+                <li><b>AdventureX (2025):</b> Final Round at China's Biggest Hackathon, Hangzhou, China.</li>
+                <li><b>ZTF Summer School (2025):</b> University of Minnesota, USA.</li>
+                <li><b>Gravitational-Wave Astronomy (2025):</b> Summer School at ICTS-TIFR, Bangalore.</li>
+                <li><b>IAAS 13th Edition (2025):</b> IIST Astronomy and Astrophysics School, Kerala.</li>
+                <li><b>Space Science Data (2025):</b> Summer School on Analysis & Statistical Modelling, MCNS, Karnataka.</li>
+                <li><b>Pulsar Data Analysis (2022):</b> HEASARC (NASA), India.</li>
+                <li><b>Ideathon Winner (2025):</b> GNDU Golden Jubilee Center of Entrepreneurship.</li>
+            </ul>
         </section>
 
-        <!-- SECTION 05: CONTACT -->
-        <section id="contact" class="mt-48 pb-32 reveal-node text-center">
-            <a href="mailto:astrodingra@gmail.com" class="inline-block hover-trigger group">
-                <h2 class="font-syne font-extrabold text-[8vw] leading-none text-transparent transition duration-500 group-hover:text-black" style="-webkit-text-stroke: 2px #0A0A0A;">INITIATE</h2>
-                <h2 class="font-syne font-extrabold text-[8vw] leading-none transition duration-500 group-hover:text-transparent" style="-webkit-text-stroke: 2px #0A0A0A;">UPLINK.</h2>
-            </a>
-            <div class="mt-12 flex flex-wrap justify-center gap-6 md:gap-12 font-mono text-xs font-bold uppercase tracking-widest px-4">
-                <a href="mailto:astrodingra@gmail.com" class="hover-trigger relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">Mail // astrodingra@gmail.com</a>
-                <a href="https://www.linkedin.com/in/astrodingra/" target="_blank" class="hover-trigger relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">LinkedIn // astrodingra</a>
-                <a href="https://github.com/jsdingrall" target="_blank" class="hover-trigger relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-right hover:after:origin-left">GitHub // Codebase</a>
-            </div>
+        <section id="education">
+            <h2>Education & Resources</h2>
+            <p>Educational materials and lectures authored or curated:</p>
+            <ul>
+                <li>
+                    <b>Computational Astrophysics / AGN Analysis:</b><br>
+                    An interactive, online graduate lecture series on the astrophysics of galaxies.<br>
+                    <a href="https://www.youtube.com/playlist?list=PL54Wg1cwz_jMDaLcFnaoOoRAZkrEDU6bJ" target="_blank">[Watch on YouTube]</a>
+                </li>
+                <li>
+                    <b>Python for Astronomy:</b><br>
+                    A comprehensive eBook for processing and analyzing astrophysical data using Python.<br>
+                    <a href="body.pdf" target="_blank">[Read eBook PDF]</a>
+                </li>
+            </ul>
         </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>
+                Email: <a href="mailto:astrodingra@gmail.com">astrodingra@gmail.com</a><br>
+                Website: <a href="https://www.astrodingra.in" target="_blank">www.astrodingra.in</a><br>
+                GitHub: <a href="https://github.com/dingra11" target="_blank">github.com/dingra11</a><br>
+                Phone: +91 8847242013
+            </p>
+            <p>
+                <b>Technical Skills:</b> Julia, Matlab, Python, R, HTML, CSS, JavaScript, PHP, C++, SQL.<br>
+                <b>Software:</b> Aladin, TopCat, DS9, VIREO, IRAC, GALFIT.
+            </p>
+        </section>
+
+        <footer class="footer-quote">
+            $ Exploring the cosmos through computational arrays // astrodingra :D
+        </footer>
 
     </main>
 
+    <!-- Research Text Modal (Popup) -->
+    <div id="researchModal" class="modal">
+        <div class="text-modal-content">
+            <span class="close-btn" id="closeResearchBtn">&times;</span>
+            <h2>Research & Open Source Pipelines</h2>
+            <p>Active computational projects and software tools built for astronomical analysis.</p>
+            
+            <h3>1. Galamo: Automated Morphological Classification</h3>
+            <p>An open-source Python package for comprehensive galaxy analysis using DECals Legacy Imaging.</p>
+            <ul>
+                <li>Integrates ML and statistical methods for morphology classification, kinematics, photometry, and spectral analysis.</li>
+                <li>Codebase: <a href="http://www.galamo.org" target="_blank">www.galamo.org</a></li>
+            </ul>
+
+            <h3>2. AGN Flux Disentanglement via PFVG Method (Active)</h3>
+            <p>Studying AGN flux variability from the COSMOS Casata Survey.</p>
+            <ul>
+                <li>Pipeline built to disentangle AGN flux contribution from total galaxy flux.</li>
+                <li>Authors: Madhu Sudan, Jashanpreet Singh Dingra, Ankit Sarkar & Hum Chand</li>
+            </ul>
+
+            <h3>3. Galspar & RAGA: Galactic Morphological Study (Active)</h3>
+            <p>Automated pipelines for precise photometric extraction and morphological modeling.</p>
+            <ul>
+                <li><b>Galspar:</b> Performs exact measurements on standard FITS images.</li>
+                <li><b>RAGA:</b> Automated pipeline for statistical morphology studies via GALFIT.</li>
+            </ul>
+
+            <h3>4. vdisp_fit: Stellar Velocity Dispersion Pipeline (2025)</h3>
+            <p>A Python pipeline to measure stellar velocity dispersion in galaxies using SDSS data.</p>
+            <ul>
+                <li>Method: Direct spectral fitting by convolving a MILES stellar template with a Gaussian broadening function utilizing robust χ<sup>2</sup> minimization.</li>
+                <li>Authors: Jashanpreet Singh Dingra & Gulab Chand Dewangan (IUCAA)</li>
+            </ul>
+
+            <h3>5. Dynamics of Open Star Clusters (2025)</h3>
+            <p>Implemented an N-body simulation to model gravitational interactions and long-term dynamical evolution.</p>
+            <ul>
+                <li>Utilized fourth-order Runge-Kutta (RK4) method.</li>
+                <li>Analyzed stellar trajectories and cluster stability over cosmic timescales.</li>
+            </ul>
+
+            <h3>6. Crab Pulsar Spin Down Rate over 5 Years (2024)</h3>
+            <p>Analyzed archival X-ray timing data (2015-2023) to measure its spin-down rate and braking index.</p>
+            <ul>
+                <li>Confirmed rotational energy loss due to magnetic dipole radiation and investigated short-term timing noise and glitches.</li>
+            </ul>
+
+            <h3>* Major Open Source Contributions</h3>
+            <ul>
+                <li><b>Astropy:</b> Core contributor to `astropy.coordinates` and other modules (2025 - Present).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Image Zoom Modal -->
+    <div id="imageModal" class="modal">
+        <img class="modal-img-content" id="zoomedImg" alt="Zoomed view of astrophysical data">
+    </div>
+
     <script>
-        /* === SYSTEM CORE LOGIC === */
+        // Modal image zoom functionality
+        const imgModal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("zoomedImg");
+        const images = document.querySelectorAll(".zoomable");
 
-        // 1. Precise Crosshair & Aura Follower
-        const root = document.documentElement;
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            // Update CSS variables for the aura
-            root.style.setProperty('--cursor-x', `${mouseX}px`);
-            root.style.setProperty('--cursor-y', `${mouseY}px`);
-            
-            // Instantly move crosshair
-            const crosshair = document.getElementById('crosshair');
-            crosshair.style.left = `${mouseX}px`;
-            crosshair.style.top = `${mouseY}px`;
+        images.forEach(img => {
+            img.addEventListener("click", function() {
+                imgModal.style.display = "block";
+                modalImg.src = this.src;
+            });
         });
 
-        // Hover state injections
-        document.querySelectorAll('.hover-trigger, a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        // Research Text Modal functionality
+        const researchModal = document.getElementById("researchModal");
+        const openResearchBtn = document.getElementById("openResearchBtn");
+        const closeResearchBtn = document.getElementById("closeResearchBtn");
+
+        openResearchBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            researchModal.style.display = "block";
         });
 
-        // 2. Accordion Dropdown Logic (Replaced Hover Cards)
-        function toggleAccordion(btn) {
-            const content = btn.nextElementSibling;
-            const icon = btn.querySelector('.accordion-icon');
-            
-            if (content.style.maxHeight) {
-                // Close it
-                content.style.maxHeight = null;
-                icon.style.transform = 'rotate(0deg)';
-                icon.innerText = '+';
-            } else {
-                // Open it
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.style.transform = 'rotate(45deg)';
-                icon.innerText = '+';
+        closeResearchBtn.addEventListener("click", function() {
+            researchModal.style.display = "none";
+        });
+
+        // Close the modals when clicking outside the content
+        window.addEventListener("click", function(event) {
+            if (event.target == imgModal) {
+                imgModal.style.display = "none";
             }
-        }
-
-        // 3. Spacetime Grid (Physics Canvas)
-        const canvas = document.getElementById('spacetime-grid');
-        const ctx = canvas.getContext('2d');
-        let width, height, points = [];
-        const spacing = 50; // Grid spacing
-        const pullRadius = 250; // Gravitational pull radius
-
-        function initCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            points = [];
-            
-            // Create topological grid points
-            for (let x = 0; x <= width + spacing; x += spacing) {
-                for (let y = 0; y <= height + spacing; y += spacing) {
-                    points.push({
-                        baseX: x, baseY: y,
-                        x: x, y: y
-                    });
-                }
+            if (event.target == researchModal) {
+                researchModal.style.display = "none";
             }
-        }
-
-        window.addEventListener('resize', initCanvas);
-        initCanvas();
-
-        function renderSpacetime() {
-            ctx.clearRect(0, 0, width, height);
-            
-            // Update points based on mouse proximity (Gravitational Lensing)
-            points.forEach(p => {
-                const dx = mouseX - p.baseX;
-                const dy = mouseY - p.baseY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < pullRadius) {
-                    // Pull points towards mouse
-                    const pullForce = (pullRadius - distance) / pullRadius;
-                    p.x = p.baseX + dx * pullForce * 0.4;
-                    p.y = p.baseY + dy * pullForce * 0.4;
-                } else {
-                    // Return to base position smoothly
-                    p.x += (p.baseX - p.x) * 0.1;
-                    p.y += (p.baseY - p.y) * 0.1;
-                }
-            });
-
-            // Draw Grid
-            ctx.strokeStyle = 'rgba(10, 10, 10, 0.4)';
-            ctx.lineWidth = 0.5;
-
-            // Render logic (connecting nearest neighbors to form mesh)
-            let cols = Math.floor(width / spacing) + 2;
-            for (let i = 0; i < points.length; i++) {
-                const p = points[i];
-                ctx.beginPath();
-                // Connect Right
-                if ((i + 1) % cols !== 0 && i + 1 < points.length) {
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(points[i + 1].x, points[i + 1].y);
-                }
-                // Connect Down
-                if (i + cols < points.length) {
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(points[i + cols].x, points[i + cols].y);
-                }
-                ctx.stroke();
-            }
-
-            requestAnimationFrame(renderSpacetime);
-        }
-        renderSpacetime();
-
-        // 4. Viewfinder Clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('time-display').innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 5. Scroll Reveal Logic
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal-node').forEach(node => observer.observe(node));
+        });
     </script>
 </body>
 </html>
