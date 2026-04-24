@@ -134,6 +134,11 @@
             white-space: nowrap;
             animation: retro-flash 1.2s infinite;
         }
+        @keyframes retro-flash {
+            0% { background-color: rgba(255, 204, 0, 0.2); }
+            50% { background-color: rgba(255, 153, 0, 0.4); }
+            100% { background-color: rgba(255, 204, 0, 0.2); }
+        }
 
         /* --- Typography & Sections --- */
         h1, h2, h3 {
