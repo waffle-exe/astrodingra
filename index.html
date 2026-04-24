@@ -74,7 +74,6 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            /* The requested Heidelberg Background */
             background-color: var(--bg-color);
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/b/b4/Heidelberg_corr.jpg');
             background-attachment: fixed;
@@ -89,10 +88,60 @@
             background: var(--container-bg);
             padding: 40px;
             border: 1px solid var(--text-color);
-            /* Brutalist shadow */
             box-shadow: 8px 8px 0px var(--text-color);
+            position: relative; 
         }
 
+        /* --- Retro Full Image Flashing Button --- */
+        .retro-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+            display: block;
+            width: 140px;
+            height: 40px;
+            background-image: url('https://www.tng-project.org/static/tng/media/TNG100-1_gas-temp_gas-shocks_machnum_1920bw3_sm.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            text-decoration: none;
+            box-shadow: 2px 2px 0px rgba(0,0,0,1);
+            overflow: hidden;
+        }
+
+        .retro-button:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+            transform: translate(1px, 1px);
+            box-shadow: none;
+        }
+
+        .retro-text {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            color: white;
+            /* Strong stroke/shadow for readability over complex image */
+            text-shadow: 1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black;
+            font-family: "MS Sans Serif", "Tahoma", sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+            animation: retro-flash 1.2s infinite;
+        }
+
+        @keyframes retro-flash {
+            0% { background-color: rgba(255, 204, 0, 0.2); }
+            50% { background-color: rgba(255, 153, 0, 0.6); }
+            100% { background-color: rgba(255, 204, 0, 0.2); }
+        }
+
+        /* --- Typography & Sections --- */
         h1, h2, h3 {
             font-weight: bold;
             margin-top: 2em;
@@ -105,6 +154,7 @@
             margin-top: 0;
             border-bottom: 2px solid var(--text-color);
             padding-bottom: 10px;
+            padding-right: 150px; /* Space for button on desktop */
         }
 
         h2 {
@@ -170,24 +220,15 @@
             font-size: 12px;
         }
 
-        pre {
-            background: #eee;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            overflow-x: auto;
-            font-size: 12px;
-        }
-
         .footer-quote {
             margin-top: 40px;
             padding: 15px;
             background: #111;
-            color: #00ff00; /* Terminal green for the quote */
+            color: #00ff00; 
             font-weight: bold;
             border: 1px solid #111;
         }
 
-        /* Image Styling */
         .project-img {
             max-width: 100%;
             height: auto;
@@ -204,11 +245,6 @@
             margin-top: 15px;
         }
 
-        .img-grid .project-img {
-            margin: 0;
-        }
-        
-        /* Profile Picture Styling */
         .profile-pic {
             float: right;
             width: 140px;
@@ -218,14 +254,12 @@
             box-shadow: 4px 4px 0px var(--text-color);
         }
 
-        /* Clearfix to prevent floated elements from overflowing their container */
         .clearfix::after {
             content: "";
             clear: both;
             display: table;
         }
 
-        /* Social Links Top Bar */
         .social-links {
             margin-top: 2em;
             margin-bottom: 1.5em;
@@ -236,12 +270,6 @@
             align-items: center;
         }
 
-        .social-links img {
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-
-        /* Zoom Modal Styling */
         .modal {
             display: none;
             position: fixed;
@@ -289,41 +317,30 @@
             cursor: pointer;
         }
 
-        .close-btn:hover {
-            color: var(--link-color);
-        }
-
         .zoomable {
             cursor: zoom-in;
             transition: transform 0.2s;
         }
 
-        .zoomable:hover {
-            transform: scale(1.02);
-            border-color: var(--link-color);
-        }
-
-        /* Mobile tweaks */
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
+                padding-top: 60px; 
                 box-shadow: 4px 4px 0px var(--text-color);
             }
-            .nav a {
-                display: inline-block;
-                margin-bottom: 10px;
-            }
-            .img-grid {
-                grid-template-columns: 1fr;
+            h1 {
+                padding-right: 0;
             }
             .profile-pic {
                 float: none;
                 display: block;
                 margin: 0 auto 15px auto;
             }
-            .text-modal-content {
-                padding: 20px;
-                width: 95%;
+            .retro-button {
+                top: 10px;
+                right: 10px;
+                width: 120px;
+                height: 35px;
             }
         }
     </style>
@@ -331,6 +348,11 @@
 <body>
 
     <main class="container">
+        <!-- Retro Full Image Flashing Button -->
+        <a href="https://www.astrodingra.in/dac-school" target="_blank" class="retro-button">
+            <div class="retro-text">Opportunity!</div>
+        </a>
+
         <header>
             <h1>Jashanpreet Singh Dingra / astrodingra</h1>
 
@@ -396,7 +418,6 @@
             </ul>
         </section>
 
-        <!-- New Software Section -->
         <section id="software">
             <h2>Software</h2>
             <p>Developed software tools and applications.</p>
@@ -420,6 +441,7 @@
             <h3>Talks & Presentations</h3>
             <ul>
                 <li><b>ICNPA 2024:</b> Best Oral Presentation Award at the Int. Conf. on Nuclear Physics and Its Applications, New Delhi.</li>
+                <li><b>Advances in Cosmology:</b> Christ University, Bangalore (2025).</li>
                 <li><b>Advances in Cosmology:</b> Christ University, Bangalore (2025).</li>
                 <li><b>Astronomy Webinar:</b> Guest Speaker, Astronomy Club, Kosovo (2023).</li>
                 <li><b>Invited Speaker:</b> Star Party, The Millennium School, Patiala (2025).</li>
