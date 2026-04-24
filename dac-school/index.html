@@ -19,18 +19,10 @@
     <meta property="og:description" content="Register now for the 3rd AGNs School. Learn computational techniques in astrophysics using real astronomical data.">
     <meta property="og:image" content="https://www.tng-project.org/static/tng/media/TNG100-1_gas-temp_gas-shocks_machnum_1920bw3.png">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://astrodingra.in/dac-school">
-    <meta property="twitter:title" content="3rd AGNs School - Registration | Computational Astrophysics">
-    <meta property="twitter:description" content="Register now for the 3rd AGNs School. Learn computational techniques in astrophysics using real astronomical data.">
-    <meta property="twitter:image" content="https://www.tng-project.org/static/tng/media/TNG100-1_gas-temp_gas-shocks_machnum_1920bw3.png">
-
     <style>
         /* Astrodingra Personal Website Theme */
         body {
             font-family: "Courier New", Courier, monospace;
-            /* Added Astronomy Background */
             background-image: url('https://www.tng-project.org/static/tng/media/TNG100-1_gas-temp_gas-shocks_machnum_1920bw3.png');
             background-size: cover;
             background-attachment: fixed;
@@ -44,7 +36,6 @@
         .container {
             max-width: 850px;
             margin: 0 auto;
-            /* High opacity overlay to keep text highly readable against the space bg */
             background-color: rgba(255, 255, 255, 0.93); 
             padding: 30px;
             border: 1px solid #000;
@@ -71,7 +62,7 @@
         }
 
         a {
-            color: #0000EE; /* Classic bright blue links */
+            color: #0000EE; 
             text-decoration: none;
             font-weight: bold;
             cursor: pointer;
@@ -81,7 +72,6 @@
             text-decoration: underline;
         }
 
-        /* Information Block */
         .info-block {
             margin-bottom: 30px;
         }
@@ -91,7 +81,6 @@
             width: 120px;
         }
 
-        /* Form Styles */
         .form-section {
             margin-bottom: 30px;
         }
@@ -118,6 +107,7 @@
             background-color: #fff;
             border: 1px solid #000;
             font-size: 14px;
+            box-sizing: border-box;
         }
         
         textarea {
@@ -151,9 +141,8 @@
             text-decoration: none;
         }
 
-        /* Step 2 specific styles */
         #step2 {
-            display: none; /* Hidden until step 1 is complete */
+            display: none;
             border-top: 2px dashed #000;
             padding-top: 20px;
             margin-top: 20px;
@@ -236,8 +225,13 @@
         </div>
         
         <div class="form-group">
+            <label>Country:</label>
+            <input type="text" id="country" placeholder="e.g. India, USA, UK">
+        </div>
+
+        <div class="form-group">
             <label>WhatsApp / Phone Number:</label>
-            <input type="tel" id="phone" placeholder="Include country code">
+            <input type="tel" id="phone" placeholder="Include country code (e.g. +91...)">
         </div>
         
         <div class="form-group">
@@ -286,10 +280,10 @@
 
         <br>
         <button type="button" id="btn-proceed" onclick="proceedToPayment()">> PROCEED</button>
-        <span id="step1-error" style="color: red; font-weight: bold; margin-left: 10px; display: none;">Error: All required fields must be filled and CV must be attached.</span>
+        <div id="step1-error" style="color: red; font-weight: bold; margin-top: 10px; display: none;">Error: All required fields must be filled and CV must be attached.</div>
     </div>
 
-    <!-- STEP 2: Payment & Verification (Hidden initially) -->
+    <!-- STEP 2: Payment & Verification -->
     <div id="step2" class="form-section">
         <h2>[ STEP 2: FEE PAYMENT & VERIFICATION ]</h2>
         
@@ -325,7 +319,7 @@
 
         <br>
         <button type="button" id="btn-submit" onclick="submitForm()">> SUBMIT APPLICATION</button>
-        <span id="step2-error" style="color: red; font-weight: bold; margin-left: 10px; display: none;">Error: Enter UTR and select a file.</span>
+        <div id="step2-error" style="color: red; font-weight: bold; margin-top: 10px; display: none;">Error: Enter UTR and select a file.</div>
     </div>
 
     <!-- Success Message -->
@@ -344,7 +338,6 @@
     </div>
 </div>
 
-<!-- Scripts utilizing modular Firebase and GitHub API -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
@@ -373,7 +366,6 @@
 
     // --- Helper Functions ---
     
-    // Convert File to Base64 (Required for GitHub API)
     function fileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -383,7 +375,6 @@
         });
     }
 
-    // Upload file to GitHub Repository
     async function uploadToGitHub(file, prefix, email) {
         const base64Content = await fileToBase64(file);
         const safeEmail = email.replace(/[^a-zA-Z0-9]/g, '_');
@@ -408,50 +399,44 @@
         }
 
         const data = await response.json();
-        return data.content.html_url; // Returns the URL to view the file on GitHub
+        return data.content.html_url;
     }
 
-    // --- Global Window Functions (for UI triggers) ---
+    // --- Global Window Functions ---
 
     window.toggleOtherStatus = function() {
         const status = document.getElementById('status').value;
         const otherInput = document.getElementById('otherStatus');
-        if (status === 'other') {
-            otherInput.style.display = 'block';
-        } else {
-            otherInput.style.display = 'none';
-        }
+        otherInput.style.display = (status === 'other') ? 'block' : 'none';
     };
 
     window.proceedToPayment = function() {
-        const name = document.getElementById('fullName').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const status = document.getElementById('status').value;
-        const otherStatus = document.getElementById('otherStatus').value;
-        const inst = document.getElementById('institution').value;
-        const exp = document.getElementById('experience').value;
-        const sop = document.getElementById('sop').value;
-        const cvFiles = document.getElementById('cv').files;
+        const fields = ['fullName', 'email', 'country', 'phone', 'status', 'institution', 'experience', 'sop'];
+        let isValid = true;
 
-        if (!name || !email || !phone || !status || !inst || !exp || !sop || (status === 'other' && !otherStatus) || cvFiles.length === 0) {
-            document.getElementById('step1-error').style.display = 'inline';
+        fields.forEach(id => {
+            if (!document.getElementById(id).value) isValid = false;
+        });
+
+        if (document.getElementById('status').value === 'other' && !document.getElementById('otherStatus').value) {
+            isValid = false;
+        }
+
+        if (document.getElementById('cv').files.length === 0) {
+            isValid = false;
+        }
+
+        if (!isValid) {
+            document.getElementById('step1-error').style.display = 'block';
             return;
         }
 
         document.getElementById('step1-error').style.display = 'none';
         
         // Lock fields
-        document.getElementById('fullName').disabled = true;
-        document.getElementById('email').disabled = true;
-        document.getElementById('phone').disabled = true;
-        document.getElementById('status').disabled = true;
-        document.getElementById('otherStatus').disabled = true;
-        document.getElementById('institution').disabled = true;
-        document.getElementById('experience').disabled = true;
-        document.getElementById('github').disabled = true;
-        document.getElementById('cv').disabled = true;
-        document.getElementById('sop').disabled = true;
+        fields.concat(['otherStatus', 'github', 'cv']).forEach(id => {
+            document.getElementById(id).disabled = true;
+        });
         
         document.getElementById('btn-proceed').style.display = 'none'; 
 
@@ -484,7 +469,7 @@
 
         if (!utr || proofFiles.length === 0) {
             errSpan.innerText = "Error: Enter UTR and select a proof file.";
-            errSpan.style.display = 'inline';
+            errSpan.style.display = 'block';
             return;
         }
 
@@ -496,15 +481,12 @@
             const cvFile = document.getElementById('cv').files[0];
             const proofFile = proofFiles[0];
 
-            // 1. Upload CV to GitHub
             btnSubmit.innerText = "> UPLOADING CV... PLEASE WAIT";
             const cvGitHubUrl = await uploadToGitHub(cvFile, "CV", email);
 
-            // 2. Upload Proof to GitHub
             btnSubmit.innerText = "> UPLOADING PROOF... PLEASE WAIT";
             const proofGitHubUrl = await uploadToGitHub(proofFile, "PROOF", email);
 
-            // 3. Save all data to Firebase Realtime Database
             btnSubmit.innerText = "> SAVING APPLICATION DATA...";
             
             const rawStatus = document.getElementById('status').value;
@@ -513,6 +495,7 @@
             const applicationData = {
                 fullName: document.getElementById('fullName').value,
                 email: email,
+                country: document.getElementById('country').value,
                 phone: document.getElementById('phone').value,
                 status: finalStatus,
                 institution: document.getElementById('institution').value,
@@ -529,7 +512,6 @@
             const newAppRef = push(dbRef);
             await set(newAppRef, applicationData);
 
-            // 4. Show Success
             document.getElementById('step1').style.display = 'none';
             document.getElementById('step2').style.display = 'none';
             document.getElementById('successMsg').style.display = 'block';
@@ -537,7 +519,7 @@
         } catch (error) {
             console.error("Submission Error:", error);
             errSpan.innerText = "Error during submission: " + error.message;
-            errSpan.style.display = 'inline';
+            errSpan.style.display = 'block';
             btnSubmit.innerText = "> SUBMIT APPLICATION";
             btnSubmit.disabled = false;
         }
