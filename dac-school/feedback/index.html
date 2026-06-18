@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3rd AGN School - Anonymous Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for textareas */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        /* Smooth star transitions */
+        .star-icon {
+            transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .star-icon:active {
+            transform: scale(0.8);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 min-h-screen text-slate-800 dark:text-slate-100 p-4 sm:p-8 flex items-center justify-center font-sans antialiased">
+
+    <!-- Main Form Container -->
+    <main class="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700/50 transition-all duration-300">
+        
+        <!-- Header -->
+        <div class="bg-indigo-600 dark:bg-indigo-500 p-8 text-center">
+            <h1 class="text-3xl font-bold text-white mb-2">3rd AGN School</h1>
+            <p class="text-indigo-100 text-sm font-medium tracking-wide uppercase">Anonymous Feedback Portal</p>
+        </div>
+
+        <div class="p-8">
+            <!-- Form View -->
+            <form id="feedbackForm" class="space-y-8">
+                
+                <!-- Rating Section (10 Stars) -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                        How would you rate your experience? <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex flex-wrap items-center gap-1 sm:gap-2" id="starContainer">
+                        <!-- 10 Stars generated via JS to keep HTML clean -->
+                    </div>
+                    <p id="ratingText" class="text-sm text-slate-500 dark:text-slate-400 min-h-[20px] font-medium"></p>
+                </div>
+
+                <!-- What you liked -->
+                <div class="space-y-3">
+                    <label for="likedText" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                        What did you like the most?
+                    </label>
+                    <textarea id="likedText" rows="3" 
+                        class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-indigo-400/20 outline-none transition-all resize-y placeholder-slate-400"
+                        placeholder="Tell us about the best parts of your experience..."></textarea>
+                </div>
+
+                <!-- Areas of improvement -->
+                <div class="space-y-3">
+                    <label for="improvementText" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                        What areas need improvement?
+                    </label>
+                    <textarea id="improvementText" rows="3" 
+                        class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:focus:ring-indigo-400/20 outline-none transition-all resize-y placeholder-slate-400"
+                        placeholder="How can we make the school even better?"></textarea>
+                </div>
+
+                <!-- Error Message Container -->
+                <div id="errorMessage" class="hidden bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm font-medium flex items-start gap-3">
+                    <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                    <span id="errorText">Please select a rating before submitting.</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" 
+                    class="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-md hover:shadow-lg focus:ring-4 focus:ring-indigo-500/30 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span id="btnText">Submit Anonymous Feedback</span>
+                    <svg id="btnIcon" class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    <!-- Loading Spinner (Hidden by default) -->
+                    <svg id="loadingSpinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+                <p class="text-xs text-center text-slate-500 dark:text-slate-400">
+                    Your response is 100% anonymous and secure.
+                </p>
+            </form>
+
+            <!-- Success View (Hidden initially) -->
+            <div id="successView" class="hidden text-center py-10 space-y-6">
+                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-500 dark:text-green-400 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Thank You!</h2>
+                <p class="text-slate-600 dark:text-slate-300 max-w-md mx-auto">
+                    Your anonymous feedback has been successfully securely recorded. We appreciate you taking the time to help 3rd AGN School improve.
+                </p>
+                <button onclick="resetForm()" class="mt-8 text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+                    Submit another response
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase & Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // --- ENVIRONMENT DETECTION & FIREBASE CONFIG ---
+        // If running in the Canvas environment, use its injected config to avoid permission errors.
+        // If exported/downloaded, seamlessly fallback to the user's specific Realtime DB config.
+        const isCanvasEnvironment = typeof __firebase_config !== 'undefined';
+        
+        const configToUse = isCanvasEnvironment 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "AIzaSyCut-Qi7scoHnjHyE8UBuN53PHWnMMKqSE",
+                authDomain: "sitee-f6a0c.firebaseapp.com",
+                databaseURL: "https://sitee-f6a0c-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "sitee-f6a0c",
+                storageBucket: "sitee-f6a0c.firebasestorage.app",
+                messagingSenderId: "284183052545",
+                appId: "1:284183052545:web:ef85ecc7be844cede8db00",
+                measurementId: "G-HZHS31QH07"
+            };
+
+        // Initialize Firebase
+        const app = initializeApp(configToUse);
+        const auth = getAuth(app);
+        
+        // Prepare DB instances
+        let db;   // For Firestore (Canvas)
+        let rtdb; // For Realtime Database (External/Exported)
+        if (isCanvasEnvironment) {
+            db = getFirestore(app);
+        } else {
+            rtdb = getDatabase(app);
+        }
+
+        let currentUser = null;
+
+        // --- AUTHENTICATION (Anonymous) ---
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication Error:", error);
+                showError("Database connection secure layer failed. Please refresh.");
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+        });
+
+        initAuth();
+
+        // --- UI & RATING LOGIC ---
+        let selectedRating = 0;
+        const totalStars = 10;
+        const starContainer = document.getElementById('starContainer');
+        const ratingText = document.getElementById('ratingText');
+        const form = document.getElementById('feedbackForm');
+        
+        const ratingDescriptions = [
+            "Select a rating",
+            "1 - Very Poor", "2 - Poor", "3 - Below Average", "4 - Needs Work", "5 - Average",
+            "6 - Fair", "7 - Good", "8 - Very Good", "9 - Excellent", "10 - Outstanding!"
+        ];
+
+        // Generate Stars
+        for (let i = 1; i <= totalStars; i++) {
+            const starSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            starSvg.setAttribute('viewBox', '0 0 24 24');
+            starSvg.setAttribute('fill', 'currentColor');
+            starSvg.classList.add('w-8', 'h-8', 'sm:w-10', 'sm:h-10', 'cursor-pointer', 'star-icon', 'text-slate-300', 'dark:text-slate-600');
+            starSvg.dataset.value = i;
+            starSvg.innerHTML = `<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>`;
+            
+            // Events for interactivity
+            starSvg.addEventListener('mouseenter', () => highlightStars(i));
+            starSvg.addEventListener('mouseleave', () => highlightStars(selectedRating));
+            starSvg.addEventListener('click', () => {
+                selectedRating = i;
+                highlightStars(i);
+                ratingText.textContent = ratingDescriptions[i];
+                ratingText.classList.add('text-indigo-600', 'dark:text-indigo-400');
+                hideError();
+            });
+
+            starContainer.appendChild(starSvg);
+        }
+
+        function highlightStars(count) {
+            const stars = starContainer.children;
+            for (let i = 0; i < totalStars; i++) {
+                if (i < count) {
+                    stars[i].classList.remove('text-slate-300', 'dark:text-slate-600');
+                    stars[i].classList.add('text-yellow-400', 'drop-shadow-sm');
+                } else {
+                    stars[i].classList.remove('text-yellow-400', 'drop-shadow-sm');
+                    stars[i].classList.add('text-slate-300', 'dark:text-slate-600');
+                }
+            }
+        }
+
+        // --- SUBMISSION HANDLING ---
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.classList.add('hidden');
+        }
+
+        function setLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            if (isLoading) {
+                btnText.textContent = "Submitting secure feedback...";
+                btnIcon.classList.add('hidden');
+                loadingSpinner.classList.remove('hidden');
+            } else {
+                btnText.textContent = "Submit Anonymous Feedback";
+                btnIcon.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            if (selectedRating === 0) {
+                showError("Please provide a rating from 1 to 10 before submitting.");
+                return;
+            }
+
+            if (!currentUser) {
+                showError("Secure connection not established yet. Please wait a moment and try again.");
+                return;
+            }
+
+            setLoading(true);
+
+            const liked = document.getElementById('likedText').value.trim();
+            const improvement = document.getElementById('improvementText').value.trim();
+
+            try {
+                if (isCanvasEnvironment) {
+                    // PATH FOR CANVAS PREVIEW (Firestore compliant path)
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : '3rd-agn-school';
+                    const feedbackCollection = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
+                    await addDoc(feedbackCollection, {
+                        rating: selectedRating,
+                        liked: liked,
+                        improvement: improvement,
+                        timestamp: serverTimestamp(),
+                        userId: currentUser.uid
+                    });
+                } else {
+                    // PATH FOR EXPORTED FILE (Your exact Realtime Database logic)
+                    const feedbackRef = ref(rtdb, 'feedback');
+                    await push(feedbackRef, {
+                        rating: selectedRating,
+                        liked: liked,
+                        improvement: improvement,
+                        timestamp: Date.now(),
+                        userId: currentUser.uid // Anonymous user ID
+                    });
+                }
+
+                // Show success view
+                form.classList.add('hidden');
+                document.getElementById('successView').classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Submission Error:", error);
+                showError("An error occurred while saving your feedback. Please try again.");
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // Expose reset globally for the success page button
+        window.resetForm = function() {
+            form.reset();
+            selectedRating = 0;
+            highlightStars(0);
+            ratingText.textContent = "";
+            document.getElementById('successView').classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
