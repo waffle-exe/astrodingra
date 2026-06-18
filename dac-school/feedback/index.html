@@ -50,7 +50,7 @@
                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                         How would you rate your experience? <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex flex-wrap items-center gap-1 sm:gap-2" id="starContainer">
+                    <div class="flex flex-wrap justify-between sm:justify-start gap-1 sm:gap-2" id="starContainer">
                         <!-- 10 Stars generated via JS to keep HTML clean -->
                     </div>
                     <p id="ratingText" class="text-sm text-slate-500 dark:text-slate-400 min-h-[20px] font-medium"></p>
@@ -189,17 +189,27 @@
 
         // Generate Stars
         for (let i = 1; i <= totalStars; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex flex-col items-center cursor-pointer group';
+            
+            const numLabel = document.createElement('span');
+            numLabel.className = 'text-xs font-medium text-slate-400 dark:text-slate-500 mb-1 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors';
+            numLabel.textContent = i;
+
             const starSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             starSvg.setAttribute('viewBox', '0 0 24 24');
             starSvg.setAttribute('fill', 'currentColor');
-            starSvg.classList.add('w-8', 'h-8', 'sm:w-10', 'sm:h-10', 'cursor-pointer', 'star-icon', 'text-slate-300', 'dark:text-slate-600');
+            starSvg.classList.add('w-8', 'h-8', 'sm:w-10', 'sm:h-10', 'star-icon', 'text-slate-300', 'dark:text-slate-600');
             starSvg.dataset.value = i;
             starSvg.innerHTML = `<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>`;
             
+            wrapper.appendChild(numLabel);
+            wrapper.appendChild(starSvg);
+            
             // Events for interactivity
-            starSvg.addEventListener('mouseenter', () => highlightStars(i));
-            starSvg.addEventListener('mouseleave', () => highlightStars(selectedRating));
-            starSvg.addEventListener('click', () => {
+            wrapper.addEventListener('mouseenter', () => highlightStars(i));
+            wrapper.addEventListener('mouseleave', () => highlightStars(selectedRating));
+            wrapper.addEventListener('click', () => {
                 selectedRating = i;
                 highlightStars(i);
                 ratingText.textContent = ratingDescriptions[i];
@@ -207,18 +217,25 @@
                 hideError();
             });
 
-            starContainer.appendChild(starSvg);
+            starContainer.appendChild(wrapper);
         }
 
         function highlightStars(count) {
-            const stars = starContainer.children;
+            const wrappers = starContainer.children;
             for (let i = 0; i < totalStars; i++) {
+                const label = wrappers[i].children[0];
+                const star = wrappers[i].children[1];
+                
                 if (i < count) {
-                    stars[i].classList.remove('text-slate-300', 'dark:text-slate-600');
-                    stars[i].classList.add('text-yellow-400', 'drop-shadow-sm');
+                    star.classList.remove('text-slate-300', 'dark:text-slate-600');
+                    star.classList.add('text-yellow-400', 'drop-shadow-sm');
+                    label.classList.remove('text-slate-400', 'dark:text-slate-500');
+                    label.classList.add('text-slate-800', 'dark:text-slate-200');
                 } else {
-                    stars[i].classList.remove('text-yellow-400', 'drop-shadow-sm');
-                    stars[i].classList.add('text-slate-300', 'dark:text-slate-600');
+                    star.classList.remove('text-yellow-400', 'drop-shadow-sm');
+                    star.classList.add('text-slate-300', 'dark:text-slate-600');
+                    label.classList.remove('text-slate-800', 'dark:text-slate-200');
+                    label.classList.add('text-slate-400', 'dark:text-slate-500');
                 }
             }
         }
