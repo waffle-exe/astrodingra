@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>3rd AGNs School - Registration | Computational Astrophysics & Python for Astronomy</title>
-    <meta name="title" content="3rd AGNs School - Registration | Computational Astrophysics & Python for Astronomy">
-    <meta name="description" content="Official registration for the 3rd AGNs School. Master Python for Astronomy, Computational Astrophysics, and data analysis using SDSS, SQL, and TNG simulations. Hands-on practice for students.">
+    <title>4th AGNs School - Registration | Computational Astrophysics & Python for Astronomy</title>
+    <meta name="title" content="4th AGNs School - Registration | Computational Astrophysics & Python for Astronomy">
+    <meta name="description" content="Official registration for the 4th AGNs School. Master Python for Astronomy, Computational Astrophysics, and data analysis using SDSS, SQL, and TNG simulations. Hands-on practice for students.">
     <meta name="keywords" content="AGNs School, Computational Astrophysics, Python for Astronomy, Astronomy Data Analysis, SDSS, TNG Simulation, Astrodingra, Jashanpreet Singh Dindra, Astronomy Course, Astrophysics Workshop">
     <meta name="author" content="Jashanpreet Singh Dindra / Astrodingra">
     <meta name="robots" content="index, follow">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://astrodingra.in/dac-school">
-    <meta property="og:title" content="3rd AGNs School - Registration | Computational Astrophysics">
-    <meta property="og:description" content="Register now for the 3rd AGNs School. Learn computational techniques in astrophysics using real astronomical data.">
+    <meta property="og:title" content="4th AGNs School - Registration | Computational Astrophysics">
+    <meta property="og:description" content="Register now for the 4th AGNs School. Learn computational techniques in astrophysics using real astronomical data.">
     <meta property="og:image" content="https://www.tng-project.org/static/tng/media/TNG100-1_gas-temp_gas-shocks_machnum_1920bw3.png">
 
     <style>
@@ -208,13 +208,14 @@
 <body>
 
 <div class="container">
-    <h1>3RD AGNS SCHOOL / REGISTRATION</h1>
+    <h1>4TH AGNS SCHOOL / REGISTRATION</h1>
     <hr>
     
     <div class="nav-links">
         [ <a href="https://www.astrodingra.in/dac-school/syllabus.pdf" target="_blank">syllabus</a> ] &nbsp; 
         [ <a href="https://astrodingra.in" target="_blank">tutor</a> ] &nbsp; 
         [ <a href="https://www.youtube.com/playlist?list=PL54Wg1cwz_jMDaLcFnaoOoRAZkrEDU6bJ" target="_blank">2nd_agn_archive</a> ] &nbsp; 
+        [ <a href="https://www.youtube.com/playlist?list=PL54Wg1cwz_jNbcmmf8Nw3Gdokz3AZGECY" target="_blank">3rd_agn_archive</a> ] &nbsp; 
         [ <a href="mailto:astrodingra@gmail.com">contact</a> ]
     </div>
 
@@ -223,11 +224,11 @@
     <div class="info-block">
         <b>Status:</b> <span id="status-text">Registration Open</span><br>
         <b>Course:</b> Python for Astronomy & Computational Astrophysics<br>
-        <b>Duration:</b> 3rd - 13th June 2026 (4 PM - 6 PM IST)<br>
+        <b>Duration:</b> 3rd - 13th January 2027 (4 PM - 6 PM IST)<br>
         <b>Format:</b> Hands-on data analysis (SDSS, SQL, Astropy, Pandas, TNG, AGN Analysis)<br>
         <b>Eligibility:</b> Open to all Indian and International students<br>
         <b>Target:</b> Undergrads / Postgrads & PhD Students<br>
-        <b>Deadline:</b> <s>29th May 2026</s> <span style="color:red;"><b>1st June 2026, 3 PM IST</b></span> (Extended Deadline)<br>
+        <b>Deadline:</b> <span style="color:red;"><b>1st January 2027, 3 PM IST</b></span> (Last Date)<br>
     </div>
 
     <hr>
@@ -361,15 +362,15 @@
     <hr>
     <div style="font-size: 12px; color: #555;">
         Powered by: ISRO Registered Space Tutor / IAAC Ambassador<br>
-        &copy; 2026 3rd AGNs School
+        &copy; 2026-2027 4th AGNs School
     </div>
 </div>
 
 <script>
     // --- Timer Logic ---
     (function() {
-        // Set the deadline to June 1, 2026, at 15:00:00 IST (GMT+0530)
-        const deadline = new Date("June 1, 2026 15:00:00 GMT+0530").getTime();
+        // Deadline: January 1, 2027, at 15:00:00 IST (GMT+0530)
+        const deadline = new Date("January 1, 2027 15:00:00 GMT+0530").getTime();
         
         const timerInterval = setInterval(function() {
             const now = new Date().getTime();
@@ -388,7 +389,8 @@
                 closedMessage.style.display = 'block';
                 statusText.innerHTML = '<span style="color: red;">Registration Closed</span>';
             } else {
-                // Calculate time units
+                // Calculate time units (days included, since the deadline is weeks away)
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -398,7 +400,7 @@
                 const m = minutes < 10 ? "0" + minutes : minutes;
                 const s = seconds < 10 ? "0" + seconds : seconds;
                 
-                timerDisplay.innerHTML = `CLOSES IN: ${h}h ${m}m ${s}s (3 PM IST)`;
+                timerDisplay.innerHTML = `CLOSES IN: ${days}d ${h}h ${m}m ${s}s (3 PM IST, 1 JAN 2027)`;
             }
         }, 1000);
     })();
